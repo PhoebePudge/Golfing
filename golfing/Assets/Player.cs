@@ -11,12 +11,14 @@ public class Player
     [SerializeField] private GameObject cm; //camera gameobject
     
     // Start is called before the first frame update
-    public void Start(){
+    public Player(GameObject GM){
         #region rb
+        gm = GM;
         if (gm.GetComponent<Rigidbody>() == null){
             gm.AddComponent<Rigidbody>();
         }
         rb = gm.GetComponent<Rigidbody>();
+        gm.layer = 9;
         #endregion
         gm.name = "Player";
     }
@@ -56,25 +58,31 @@ public class Player
             Debug.LogError("rb within player script is null.");
             return true;
         }else if (cm == null){
-            Debug.LogError("cm within player script is null.");
+            Debug.LogWarning("cm within player script is null. Trying to fix now...");
+            if (GameObject.Find("Main Camera") != null){
+                cm = GameObject.Find("Main Camera");
+                Debug.LogWarning("cm found! Fixed issue!");
+                return false;
+            }
+            Debug.LogError("cm was not found!");
             return true;
         }else{
             return false;
         }
     }
     public void onDrawGizmos(){
-        //called within the onDrawGizmos monobehaviour function
-        Gizmos.color = Color.blue;
-        Camera cam = cm.GetComponent<Camera>();
-        Vector3 r1 = RaycastScreenPoint(new Vector2(cam.pixelWidth, 0));
-        Vector3 r2 = RaycastScreenPoint(new Vector2(cam.pixelWidth, cam.pixelHeight));
-        Vector3 l1 = RaycastScreenPoint(new Vector2(0, 0));
-        Vector3 l2 = RaycastScreenPoint(new Vector2(0, cam.pixelHeight));
-        Debug.Log("r1: " + r1 + " r2: " + r2 + " l1: " + l1 + " l2: " + l2);
-        Gizmos.DrawLine(r1, r2);
-        Gizmos.DrawLine(l1, l1);
-        Gizmos.DrawLine(r1, l1);
-        Gizmos.DrawLine(r2, l2);
+        ////called within the onDrawGizmos monobehaviour function
+        //Gizmos.color = Color.blue;
+        //Camera cam = cm.GetComponent<Camera>();
+        //Vector3 r1 = RaycastScreenPoint(new Vector2(cam.pixelWidth, 0));
+        //Vector3 r2 = RaycastScreenPoint(new Vector2(cam.pixelWidth, cam.pixelHeight));
+        //Vector3 l1 = RaycastScreenPoint(new Vector2(0, 0));
+        //Vector3 l2 = RaycastScreenPoint(new Vector2(0, cam.pixelHeight));
+        //Debug.Log("r1: " + r1 + " r2: " + r2 + " l1: " + l1 + " l2: " + l2);
+        //Gizmos.DrawLine(r1, r2);
+        //Gizmos.DrawLine(l1, l1);
+        //Gizmos.DrawLine(r1, l1);
+        //Gizmos.DrawLine(r2, l2);
     }
     private Vector3 RaycastScreenPoint(Vector3 v3){
         var ray = Camera.main.ScreenPointToRay(v3);
