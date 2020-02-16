@@ -70,6 +70,8 @@ public class Player
             return false;
         }
     }
+
+
     public void onDrawGizmos(){
         ////called within the onDrawGizmos monobehaviour function
         //Gizmos.color = Color.blue;

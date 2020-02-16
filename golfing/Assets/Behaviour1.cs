@@ -17,6 +17,7 @@ public class Behaviour1 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)){
             if (!ballPlaced){
                 b = new Ball();
+                
                 ballPlaced = true;
             }
             GameObject.Find("Slider").GetComponent<SliderUI>().isReset = true;
